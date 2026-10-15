@@ -11,13 +11,14 @@ void execute_line(char** args) {
   int child = fork();
   if (child == 0){
      exec(args[0], args);
-     fprintf(2, "failed");
+     fprintf(2, "failed\n");
+     exit(1);
      }
-  else if (child > 0);{
+  else if (child > 0){
      wait(0);
      }
   else{
-     fprintf(2, "failed");
+     fprintf(2, "failed\n");
      }
 }
 

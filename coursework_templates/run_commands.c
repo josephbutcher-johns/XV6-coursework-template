@@ -19,6 +19,7 @@ void execute_left_side(char** args, int *p) {
     close(p[1]);
     // TODO: Execute the command with the exec() system call
     exec(args[0], args);
+    exit(1);
   }
   // Do not use wait() here as before. Parent should continue
   // in the main method.
@@ -41,6 +42,7 @@ void execute_right_side(char** args, int *p) {
     close(p[0]);
     // TODO: Execute the command with the exec() system call
     exec(args[3] , &args[3]);
+    exit(1);
   } else {
     // Use wait to wait for both child processes to complete separately.
     wait();
@@ -110,6 +112,7 @@ int main(int argc, char *argv[]) {
         *b = '\0';
         // TODO: execute the right-hand side command.
         execute_right_side(args, p);
+        close(p[0]);
         break;
       } else if (*b == ' ') {
         // Terminate the string.

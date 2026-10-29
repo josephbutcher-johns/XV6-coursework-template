@@ -88,11 +88,12 @@ int main(int argc, char *argv[]) {
         // Replace the end of line character by the string terminating
         // character.
         *b = '\0';
-        if (buf[0] == 'q')
+        if (buf[0] == 'q'){
           // TODO: exit with the exit() system call.
           close(p[0]);
           close(p[1]);
           exit(0);
+        }
         else {
           // TODO: Execute the left-hand side.
           execute_left_side(args, p);

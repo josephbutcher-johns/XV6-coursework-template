@@ -72,6 +72,8 @@ int main(int argc, char *argv[]) {
     // means one line has terminated.
     b = buf;
     // TODO: Create a new pipe here on every iteration.
+    args[1] = 0;
+    args[4] = 0;
     if (pipe(p) < 0) {
       fprintf(2, "pipe failed");
       exit(1);

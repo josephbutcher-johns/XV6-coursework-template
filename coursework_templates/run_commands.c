@@ -70,6 +70,10 @@ int main(int argc, char *argv[]) {
     // means one line has terminated.
     b = buf;
     // TODO: Create a new pipe here on every iteration.
+    if (pipe(p) < 0) {
+      fprintf(2, "pipe failed");
+      exit(1);
+    }
     fprintf(2, "\nPlease enter the first command and press enter (type 'q' to exit):\n");
     while (read(0, b, 1) > 0) {
       if (*b == '\n') {

@@ -19,6 +19,7 @@ void execute_left_side(char** args, int *p) {
     close(p[1]);
     // TODO: Execute the command with the exec() system call
     exec(args[0], args);
+    fprintf(2, "exec failed\n");
     exit(1);
   }
   // Do not use wait() here as before. Parent should continue
@@ -38,15 +39,16 @@ void execute_right_side(char** args, int *p) {
     // duplicating p[0].
     close(0);
     dup(p[0]);
-    close(p[1]);
     close(p[0]);
+    close(p[1]);
     // TODO: Execute the command with the exec() system call
     exec(args[3] , &args[3]);
+    fprintf(2, "exec failed\n");
     exit(1);
   } else {
     // Use wait to wait for both child processes to complete separately.
-    wait();
-    wait();
+    wait(0);
+    wait(0);
   }
 }
 
@@ -73,7 +75,9 @@ int main(int argc, char *argv[]) {
     b = buf;
     // TODO: Create a new pipe here on every iteration.
     args[1] = 0;
+    args[2] = 0;
     args[4] = 0;
+    args[5] = 0;
     if (pipe(p) < 0) {
       fprintf(2, "pipe failed");
       exit(1);
@@ -86,6 +90,8 @@ int main(int argc, char *argv[]) {
         *b = '\0';
         if (buf[0] == 'q')
           // TODO: exit with the exit() system call.
+          close(p[0]);
+          close(p[1]);
           exit(0);
         else {
           // TODO: Execute the left-hand side.
@@ -93,6 +99,7 @@ int main(int argc, char *argv[]) {
           // TODO: Close write-end of a pipe, otherwise right-hand side child process
           // will continously wait for the data.
           close(p[1]);
+          b++;
           break;
         }
       } else if (*b == ' ') {
